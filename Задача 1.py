@@ -10,7 +10,7 @@ def parabola(V, L, X, Le, Ri):
     '''while Le<=Ri:
         X = (Le+Ri)//2
         y1 = ((((r**2)-(x0**2))**0.5+(X*x0)*(1/math.tan(2*L))-(g*((X-x0)**2))/2*(V**2)*((math.sin(2*L)**2)))-(((r**2)-(X**2))**0.5))
-        if(round(X) == 0 or math.ceil(X) == 0):
+        if(int(X) == 0 or math.ceil(X) == 0):
             return X
         elif X<0:
             Ri = X-1
