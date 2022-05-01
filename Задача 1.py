@@ -1,6 +1,6 @@
 import math
 def main(v, l, x1):
-    v = (2*g*(y0-math.sqrt((r**2)*(x0**2))))**0.5
+    v = math.sqrt(2*g*(y0-math.sqrt((r**2)-(x0**2))))
     l = math.asin(x/r)
     parabola(v, l, x)
 def parabola(V, L, X):
