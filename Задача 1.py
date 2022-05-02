@@ -54,9 +54,9 @@ def graf_parabola():
         turtle.down()
         x1+=1
 x0 = 1
-y0 = 297
+y0 = 470
 x = 0
-r = 150
+r = 450
 g = 1
 v0 = 0
 l0 = 0
@@ -64,9 +64,8 @@ c = 0
 Left = x0
 Right = r
 grafics()
-for c in range(0, 4):
+while x!=None and math.ceil(x)<r:
     x1 = x0
     main()
     x0 = x
 turtle.mainloop()
-
