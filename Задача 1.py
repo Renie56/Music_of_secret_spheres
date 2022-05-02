@@ -13,18 +13,18 @@ def parabola():
     Left = (v0**2)*math.sin(4*l0)/(g*2)+x0
     Right = r
     print('Le:', Left, 'Ri:', Right)
+    x = None
     while Left<=Right:
         x = (Left+Right)//2
         y = ((((r**2)-(x0**2))**0.5+(x-x0)*(1/math.tan(2*l0))-(g*((x-x0)**2))/(2*(v0**2)*((math.sin(2*l0)**2))))-(((r**2)-(x**2))**0.5))
         print('y1:', y,'Le:', Left, 'Ri:', Right, 'X:', x)
         if (int(y) == 0 or math.ceil(y) == 0):
-            graf_parabola()
             break
         elif y<0:
             Right = x-1
         else:
             Left = x+1
-    #return x
+    graf_parabola()
 def grafics():
     global x0, y0
     turtle.up()
