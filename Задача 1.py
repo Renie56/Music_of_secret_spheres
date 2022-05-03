@@ -27,23 +27,28 @@ def parabola():
                 Right = x-0.01
             else:
                 Left = x+0.01
-    graf_parabola()
+        if math.ceil(x)<r:
+            turtle.showturtle()
+            graf_parabola()
+            turtle.hideturtle()
 def grafics():
     global x0, y0
     turtle.up()
-    turtle.goto(x0, y0 - 1)
+    turtle.goto(r, 0)
     turtle.down()
-    turtle.circle(1)
+    turtle.left(90)
+    turtle.circle(r, r*1.2)
     turtle.up()
-    turtle.goto(0, -r)
+    turtle.right(180)
+    turtle.goto(-(a/2), 0)
     turtle.down()
-    turtle.circle(r)
+    turtle.goto(a/2, 0)
     turtle.up()
-    turtle.right(90)
-    turtle.goto(0, 0)
+    turtle.goto(x0, y0)
     turtle.down()
-    turtle.circle(1)
+    turtle.goto(x0, r)
     turtle.up()
+    turtle.shape('circle')
 def graf_parabola():
     global l0, v0, y
     x1 = x0
@@ -54,9 +59,10 @@ def graf_parabola():
         turtle.down()
         x1+=1
 x0 = 1
-y0 = 470
+y0 = 300
 x = 0
-r = 450
+r = 150
+a = 400
 g = 1
 v0 = 0
 l0 = 0
