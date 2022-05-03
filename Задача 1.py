@@ -18,19 +18,19 @@ def parabola():
         Left = (v0**2)*math.sin(4*l0)/(g*2)+x0
         Right = r
         print('Le:', Left, 'Ri:', Right)
-        while Left<=Right:
+        while Left<=Right and (x==None or x<r):
             x = (Left+Right)/2
             y = ((((r**2)-(x0**2))**0.5+(x-x0)*(1/math.tan(2*l0))-(g*((x-x0)**2))/(2*(v0**2)*((math.sin(2*l0)**2))))-(((r**2)-(x**2))**0.5))
+            print(y)
             if (int(y) == 0 or math.ceil(y) == 0):
+                turtle.showturtle()
+                graf_parabola()
+                turtle.hideturtle()
                 break
             elif y<0:
                 Right = x-0.01
             else:
                 Left = x+0.01
-        if x<r:
-            turtle.showturtle()
-            graf_parabola()
-            turtle.hideturtle()
 def grafics():
     global x0, y0
     turtle.up()
@@ -53,13 +53,14 @@ def graf_parabola():
     global l0, v0, y
     x1 = x0
     y = ((((r ** 2) - (x0 ** 2)) ** 0.5 + (x1 - x0) * (1 / math.tan(2 * l0)) - (g * ((x1 - x0) ** 2)) / (2 * (v0 ** 2) * ((math.sin(2 * l0) ** 2)))))
-    while x1 <= x and y > 0:
+    print('Кінець параболи:', x1, round(x, 2))
+    while x1 <= round(x, 2) and y >= 0:
         y = ((((r ** 2) - (x0 ** 2)) ** 0.5 + (x1 - x0) * (1 / math.tan(2 * l0)) - (g * ((x1 - x0) ** 2)) / (2 * (v0 ** 2) * ((math.sin(2 * l0) ** 2)))))
         turtle.goto(x1, y)
         turtle.down()
-        x1+=1
+        x1+=0.1
 x0 = 1
-y0 = 300
+y0 = 400
 x = 0
 r = 150
 a = 400
