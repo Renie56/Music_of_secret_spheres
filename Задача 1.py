@@ -27,7 +27,7 @@ def parabola():
                 Right = x-0.01
             else:
                 Left = x+0.01
-        if math.ceil(x)<r:
+        if x<r:
             turtle.showturtle()
             graf_parabola()
             turtle.hideturtle()
