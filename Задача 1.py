@@ -59,8 +59,9 @@ def graf_parabola():
         turtle.goto(x1, y)
         turtle.down()
         x1+=0.1
-x0 = 1
-y0 = 400
+q = 10
+x0 = 0.1
+y0 = 300
 x = 0
 r = 150
 a = 400
