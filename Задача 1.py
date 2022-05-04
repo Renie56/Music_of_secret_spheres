@@ -12,7 +12,7 @@ def main():
     parabola()
     print('parabola[X] =', x)
 def parabola():
-    global v0, l0, x, Left, Right
+    global v0, l0, x, Left, Right, q
     x = None
     if math.sin(4*l0)>0:
         Left = (v0**2)*math.sin(4*l0)/(g*2)+x0
@@ -23,14 +23,15 @@ def parabola():
             y = ((((r**2)-(x0**2))**0.5+(x-x0)*(1/math.tan(2*l0))-(g*((x-x0)**2))/(2*(v0**2)*((math.sin(2*l0)**2))))-(((r**2)-(x**2))**0.5))
             print(y)
             if (int(y) == 0 or math.ceil(y) == 0):
-                turtle.showturtle()
+                q+=1
+                '''turtle.showturtle()
                 graf_parabola()
-                turtle.hideturtle()
+                turtle.hideturtle()'''
                 break
             elif y<0:
-                Right = x-0.01
+                Right = x-0.0000001
             else:
-                Left = x+0.01
+                Left = x+0.0000001
 def grafics():
     global x0, y0
     turtle.up()
@@ -59,8 +60,25 @@ def graf_parabola():
         turtle.goto(x1, y)
         turtle.down()
         x1+=0.1
-q = 10
-x0 = 0.1
+def borders:
+    global x0, y0
+    Le = w
+    Ri = p
+    x0 = (w+p)/2
+    while Le
+        while x!=None and x<r:
+            x1 = x0
+            main()
+            x0 = x
+        if q>=4:
+            le = x0
+        elif q<=3:
+            Ri = x0
+print(q)
+q = 1
+w = 0.001415
+p = 1.6
+x0 = 0.001415
 y0 = 300
 x = 0
 r = 150
@@ -71,9 +89,6 @@ l0 = 0
 c = 0
 Left = x0
 Right = r
-grafics()
-while x!=None and math.ceil(x)<r:
-    x1 = x0
-    main()
-    x0 = x
-turtle.mainloop()
+#grafics()
+
+#turtle.mainloop()
