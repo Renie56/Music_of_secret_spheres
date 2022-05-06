@@ -61,7 +61,7 @@ def graf_parabola():
         turtle.down()
         x1+=0.1
 def borders(a):
-    global x0, y0, x, q, Left, Right
+    global x0, y0, x, q, Left, Right, x00
     Le = w
     Ri = p
     Left = x0
@@ -85,6 +85,7 @@ w = 0.001415
 p = 1.6
 x0 = 0
 y0 = 300
+x00 = 0
 x = 0
 r = 150
 g = 9.8
@@ -95,10 +96,18 @@ mx = 0
 mn = 0
 Left = x0
 Right = r
+turtle.up()
 while y0<=1000:
     mx = borders(0)
+    turtle.goto(x00*100, y0//10)
+    turtle.down()
+    y0+=10
+turtle.up()
+y0=300
+while y0<=1000:
     mn = borders(1)
-    print('Висота:', y0, 'Від:', mn, 'До:', mx)
+    turtle.goto(x00*100, y0//10)
+    turtle.down()
     y0+=10
 #grafics()
 #turtle.mainloop()
