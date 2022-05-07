@@ -25,24 +25,34 @@ def main():
     parabola()
     #print('parabola[X] =', x)
 def parabola():
-    global v0, l0, x, Left, Right, q
+    global v0, l0, x, Left, Right, q, counter
     x = None
     if math.degrees(l0)>0:
         Left = (v0**2)*math.sin(2*l0)/(g*2)+x0
         Right = r
         #print('Le:', Left, 'Ri:', Right)
+        y=0
+        counter = 0
         while Left<=Right and (x==None or x<r):
             x = (Left+Right)/2
+            y1=y
             y = (((((r**2)-(x0**2))**0.5+(x-x0)*(math.tan(l0))-(g*((x-x0)**2))/(2*(v0**2)*((math.cos(l0)**2)))))-(((r**2)-(x**2))**0.5))
             #print(y)
             number = Decimal(y)
-            if number.quantize(Decimal("1.0000"), ROUND_HALF_DOWN) == 0 :
+            if y == y1:
+                counter += 1
+                # print(counter)
+            if counter > 4 and y < 0:
+                Right = x - 1e-10
+            elif counter > 4 and y > 0:
+                Left = x + 1e-10
+            elif number.quantize(Decimal("1.0000"), ROUND_HALF_DOWN) == 0 :
                 q+=1
                 break
             elif y<0:
-                Right = x-1e-20
+                Right = x-1e-30
             else:
-                Left = x+1e-20
+                Left = x+1e-30
 def borders(a):
     global x0, y0, x, q, Left, Right, x00, x1
     Le = w
@@ -92,6 +102,7 @@ def graf_parabola():
         turtle.down()
         x1+=0.1
 q = 1
+counter=0
 a = 400
 w = 0.0001415
 p = 1.5
@@ -111,7 +122,7 @@ Right = r
 turtle.up()
 while y0<=1000:
     mx = borders(0)
-    turtle.goto(x00*100, y0//10)
+    turtle.goto(x00*10, y0//10)
     print("x лівої границі :", x00*100, "y лівої границі :", y0//10)
     turtle.down()
     y0+=10
@@ -119,9 +130,11 @@ turtle.up()
 y0=300
 while y0<=1000:
     mn = borders(1)
-    turtle.goto(x00*100, y0//10)
+    turtle.goto(x00*10, y0//10)
     print("x правої границі :", x00 * 100, "y правої границі :", y0 // 10)
     turtle.down()
     y0+=10
 #grafics()
-#turtle.mainloop()
+turtle.up()
+turtle.forward(100)
+turtle.mainloop()
