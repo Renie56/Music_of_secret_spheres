@@ -41,17 +41,13 @@ def main():
         # print("tg_b:", tg_b, "tg_u:", tg_u)
         # print("tg_b:", b, "tg_u:", u)
         # print("tg_b:", math.degrees(b), "tg_u:", math.degrees(u))
-    # print('Швидкість:', v0)
-    # print('кут:', math.degrees(l0))
-
-    # print('parabola[X] =', x)
 
 
 def parabola1():
     global v0, l0, x, Left, Right, q, counter, x0, y0
     x = None
     print('v0:', v0)
-    if (v0 == 0 and abs(x0) < r + R):
+    if (v0 == 0 and abs(x0) < (r + R)):
         x = x0
         q += 1
         v0 = ((2 * g * (y0 - math.sqrt(((r + R) ** 2) - (x0 ** 2)))) ** 0.5)
@@ -74,27 +70,26 @@ def parabola1():
         while Left <= Right and (x == None or x < (r + R)):
             x = (Left + Right) / 2
             y1 = y
-            y =(x - x0) * (math.tan(l0)) + (g * ((x - x0) ** 2)) / (2 * (v0 ** 2) * ((math.cos(l0) ** 2))) - ((((r + R) ** 2) - (x ** 2)) ** 0.5)
-            print('y:', y, 'x:', x, 'L:', Left, 'R:',Right, "v0:", v0)  ########### о ось тут взагалі проблема основна, через яку все виходить
+            y = y0+ (x - x0) * (math.tan(l0)) - (g * ((x - x0) ** 2)) / (2 * (v0 * math.cos(l0)) ** 2) - ((((r + R) ** 2) - (x ** 2)) ** 0.5)
+            print('y:', y, 'x:', x, 'L:', Left, 'R:',Right, "v0:", v0)
+            #print('y0:', y0, 'x- x0 * (math.tan(l0)):', (x- x0)* (math.tan(l0)), '(g...:', (g * ((x - x0) ** 2)) / (2 * (v0 ** 2) * ((math.cos(l0) ** 2))), 'kolo:',((((r + R) ** 2) - (x ** 2)) ** 0.5))
             number = Decimal(y)
             if y == y1:
                 counter += 1
-                # print(counter)
-            if counter > 5 and y < 0:
+            if counter > 5 :
                 Right = x - 1e-15
             elif counter > 5 and y > 0:
                 Left = x + 1e-15
-            elif y < 100 and number.quantize(Decimal("1.00000000000"), ROUND_HALF_DOWN) == 0:
-                q += 1
+            elif abs(y) < 100 and number.quantize(Decimal("1.00000000"), ROUND_HALF_DOWN) == 0:
                 graf_parabola()
+                q += 1
                 break
-            elif y < 0 and x0 > 0:
-                Left = x + 1e-30
-            elif y > 0 and x0 > 0:
+            elif y < 0 and v0 > 0:
                 Right = x - 1e-30
-            elif y < 0 and x0 < 0:
+            elif y > 0 and v0 > 0:
                 Left = x + 1e-30
-                # print('Abobs')
+            elif y < 0 and v0 < 0:
+                Left = x + 1e-30
             else:
                 Right = x - 1e-30
 
@@ -125,15 +120,15 @@ def parabola1():
         #print('y0:', y0)
         vp = ((2 * g * (y0 - math.sqrt(((r + R) ** 2) - (x ** 2))))) ** 0.5
         print('l0:', math.degrees(l0))
-        v0 = vx1 + (vy1 + vp) * math.cos(l0)
-        vpy = (vy1 + vp) * math.sin(l0)
-        print("v_abeba:", v0)
-        if v0 < 0:
-            v0 *= -math.cos(l0)
+        vx = vx1 + (vy1 + vp) * math.cos(l0)
+        vy = (vy1 + vp) * math.sin(l0)
+        print("v_only_x:", vx)
+        if vx < 0:
+            v0 = vx / -math.cos(l0)
         else:
-            v0 = (v0**2+vpy**2)**0.5
-            l0 = math.asin(vpy/v0)
-        print("v:", v0)
+            v0 = (vx**2+vy**2)**0.5
+            l0 = math.asin(vy/v0)
+        print("v_abs:", v0)
         print('l0:', math.degrees(l0))
         print("vp:", vp)
         v0 *= 0.82
@@ -157,24 +152,24 @@ def parabola():
         print(math.degrees(l0))
         #l0 = math.radians(180) - l0
         #l0*=-1
-        print(math.degrees(l0))
+        #print(math.degrees(l0))
         while Left <= Right and (x == None or abs(x) < abs((r + R))):
             x = (Left + Right) / 2
             y1 = y
-            y = ((((x-x0)*(math.tan(l0))-(g*((x-x0)**2))/(2*(v0**2)*((math.cos(l0)**2)))))-((((r+R)**2)-(x**2))**0.5))
-            print('y:', y, 'x:', x, 'L:', Left, 'R:', Right, "v0:", v0)  ########### о ось тут взагалі проблема основна, через яку все виходить
+            y = (((r+R)**2)-(x0**2))**0.5 + (x - x0) * (math.tan(l0)) - (g * ((x - x0) ** 2)) / (2 * (v0 * math.cos(l0)) ** 2) - ((((r + R) ** 2) - (x ** 2)) ** 0.5)
+            print('y:', y, 'x:', x, 'L:', Left, 'R:', Right, "v0:", v0)
             number = Decimal(y)
             if y == y1:
                 counter += 1
                 # print(counter)
-            if counter > 5 and y < 0:
+            if counter > 5:
                 if y < 0 :
-                    Right = x - 1e-15
+                    Right = x - 1e-10
                 else:
-                    Left = x + 1e-15
+                    Left = x + 1e-10
             elif y < 100 and number.quantize(Decimal("1.00000"), ROUND_HALF_DOWN) == 0:
-                q += 1
                 graf_parabola()
+                q += 1
                 break
             elif y > 0:
                 if v0 > 0:
@@ -186,9 +181,10 @@ def parabola():
                     Right = x - 1e-30
                 else:
                     Left = x + 1e-30
-        v0 += (2 * g * (((r + R) ** 2 - x0 ** 2) ** 0.5 - ((r + R) ** 2 - x ** 2) ** 0.5)) ** 0.5
-        v0 *= 0.82 ** q
-        print("у ітерацію %d швидкість " %(q), v0)
+        if x != None:
+            v0 += (2 * g * (((r + R) ** 2 - x0 ** 2) ** 0.5 - ((r + R) ** 2 - x ** 2) ** 0.5)) ** 0.5
+            v0 *= 0.82 ** q
+            print("у ітерацію %d швидкість " %(q), v0)
 
 def borders(a):
     global x0, y0, x, q, Left, Right, x00, x1
@@ -219,33 +215,49 @@ def grafics():
     turtle.down()
     turtle.left(90)
     turtle.circle((r + R), (r) * 1.2)
-    turtle.up()
-    turtle.right(180)
-    turtle.goto(-(a / 2), 0)
-    turtle.down()
-    turtle.goto(a / 2, 0)
-    turtle.up()
     # turtle.shape('circle')
 
 
+def hoh():
+    turtle.up()
+    turtle.goto(-10, y0)
+    turtle.down()
+    turtle.goto(10, y0)
+    turtle.up()
+
+
 def graf_parabola():
-    global l0, v0, y
+    global y, x1
     x1 = x0
-    y = (((r + R) ** 2) - (x0 ** 2)) ** 0.5
-    print('Кінець параболи:', x1, x, y)
-    while y > 0 and ((abs(x1)>abs(x) and (q==1 or v0 > 0))or(abs(x1)<abs(x) and (q!=1 and v0 < 0))):
-        if q == 1:
-            y = (((((r + R) ** 2) - (x0 ** 2)) ** 0.5 + (x1 - x0) * (math.tan(l0)) + (g * ((x1 - x0) ** 2)) / (
-                        2 * (v0 ** 2) * ((math.cos(l0) ** 2)))))
-        else:
-            y = (((((r + R) ** 2) - (x0 ** 2)) ** 0.5 + (x1 - x0) * (math.tan(l0)) - (g * ((x1 - x0) ** 2)) / (
-                        2 * (v0 ** 2) * ((math.cos(l0) ** 2)))))
-        print(y, x, x1)
+    y = y0+ (x1 - x0) * (math.tan(l0)) - (g * ((x1 - x0) ** 2)) / (2 * (v0 * math.cos(l0)) ** 2)
+    if q == 0:
+        turtle.up()
         turtle.goto(x1, y)
-        turtle.down()
-        if v0 < 0:
-            x1 -= 0.1
+    turtle.down()
+    print("q:", q, "x1:", x1, "v0:", v0)
+    print('Кінець параболи:', x1, x, y)
+    if v0 < 0 and k < -70 and q == 0:
+        x1 -= 0.0001
+    elif v0 > 0 and k < -70 and q == 0:
+        x1 += 0.0001
+    elif v0 < 0 and k > -70 and q != 0:
+        x1 -= 0.1
+    else:
+        x1 += 0.1
+    while y >= (((r + R) ** 2) - (x ** 2)) ** 0.5:
+        if q == 0:
+            y = y0 + (x1 - x0) * (math.tan(l0)) - (g * ((x1 - x0) ** 2)) / (2 * (v0 * math.cos(l0)) ** 2)
         else:
+            y = (((r + R) ** 2) - (x0 ** 2)) ** 0.5 + (x1 - x0) * (math.tan(l0)) - (g * ((x1 - x0) ** 2)) / (2 * (v0 * math.cos(l0)) ** 2)
+        print("y:", y, x, x1)
+        turtle.goto(x1, y)
+        if v0 < 0 and k < -70 and q == 0:
+            x1 -= 0.0001
+        elif v0 > 0 and k < -70 and q == 0:
+            x1 += 0.0001
+        elif v0 < 0 and k > -70 and q != 0 :
+            x1 -= 0.1
+        else :
             x1 += 0.1
     turtle.up()
 
@@ -272,6 +284,7 @@ def answer2():
 def answer1():
     global x1, x0
     turtle.up()
+    #hoh()
     grafics()
     coordinats()
     while x != None and x < (r + R):
@@ -279,9 +292,10 @@ def answer1():
         x1 = x0
         x0 = x
         print("x1:", x1, "x0:", x0, 'q:', q)
+        print("xxxxxxxxxxxxxxxxxxxxxxxxxxyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
         if q > 7:
             break
-
+    turtle.mainloop()
 
 def border():
     turtle.up()
@@ -289,6 +303,7 @@ def border():
     turtle.down()
     turtle.left(90)
     turtle.forward(80)
+
 
 def coordinats ():
     turtle.up()
@@ -308,9 +323,10 @@ R = d / 2
 a = 400
 w = 0.003
 p = 7
-x0 = -3
-y0 = 700
-l0 = math.radians(0)
+x0 = -6
+y0 = 310
+k = -90
+l0 = math.radians(k)
 x00 = 0
 x = 0
 r = 150
@@ -320,6 +336,11 @@ c = 0
 mx = 0
 mn = 0
 Left = 0
+'''turtle.up()
+turtle.goto(-35, 0)
+turtle.down()
+turtle.goto(-35, 110)
+turtle.up()'''
 print("x0:", x0, "y0:", y0, "l0(до горизонту):", math.degrees(l0))
 Right = (r + R)
 answer1()
