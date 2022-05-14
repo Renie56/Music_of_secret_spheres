@@ -17,25 +17,24 @@ def main():
         parabola1()
     else:
         if q > 1:
-            tg_b = -x0 / ((((r + R) ** 2) - (x0 ** 2)) ** 0.5)
+            tg_b = -x / ((((r + R) ** 2) - (x ** 2)) ** 0.5)
             b = math.atan(tg_b)
             if b < 0:
                 b += math.pi
-            print("privious l0:", math.degrees(l0))
-            tg_u = (math.tan(l0)) + (g * (x0 - x00) / ((v0 ** 2) * (math.cos(l0) ** 2)))
-            print('b:', math.degrees(b))
+            print("b:", math.degrees(b))
+            tg_u = (math.tan(l0)) + (g * (x - x0) / ((v0 ** 2) * (math.cos(l0) ** 2)))
             u = math.atan(tg_u)
             if u < 0:
                 u += math.pi
             u = math.pi - u
-            print('u:', math.degrees(u))
+            print("u:", math.degrees(u))
             if x > 0:
                 l0 = 2 * b - math.radians(180) - u
-                print("adin")
+                print("м'яч впаде у додатніх іксах")
             elif x < 0:
                 l0 = u - 2 * b
                 l0 = math.radians(180) - l0
-                print("dwa")
+                print("м'яч впаде у від'ємних іксах іксах")
             print("l0:", math.degrees(l0))
         parabola()
         # print("tg_b:", tg_b, "tg_u:", tg_u)
@@ -182,7 +181,13 @@ def parabola():
                 else:
                     Left = x + 1e-30
         if x != None:
-            v0 += (2 * g * (((r + R) ** 2 - x0 ** 2) ** 0.5 - ((r + R) ** 2 - x ** 2) ** 0.5)) ** 0.5
+            print('priv_v0:', v0, 'x0:', x0)
+            if v0 > 0:
+                v0 += ((2 * g * ((r + R) ** 2 - (x0) ** 2) ** 0.5) - (((r + R) ** 2 - (x) ** 2) ** 0.5)) ** 0.5
+            else:
+                v0 -= ((2 * g * ((r + R) ** 2 - (x0) ** 2) ** 0.5) - (((r + R) ** 2 - (x) ** 2) ** 0.5)) ** 0.5
+            print('first:', (2 * g * ((r + R) ** 2 - (x0) ** 2) ** 0.5), 'second:', (((r + R) ** 2 - (x) ** 2) ** 0.5))
+            print('n_v0:', v0)
             v0 *= 0.82 ** q
             print("у ітерацію %d швидкість " %(q), v0)
 
@@ -229,18 +234,18 @@ def hoh():
 def graf_parabola():
     global y, x1
     x1 = x0
-    y = y0+ (x1 - x0) * (math.tan(l0)) - (g * ((x1 - x0) ** 2)) / (2 * (v0 * math.cos(l0)) ** 2)
+    y = y0 + (x1 - x0) * (math.tan(l0)) - (g * ((x1 - x0) ** 2)) / (2 * (v0 * math.cos(l0)) ** 2)
     if q == 0:
         turtle.up()
         turtle.goto(x1, y)
     turtle.down()
     print("q:", q, "x1:", x1, "v0:", v0)
     print('Кінець параболи:', x1, x, y)
-    if v0 < 0 and k < -70 and q == 0:
+    if v0 < 0 and ((k < -70 and q == 0) or (abs(abs(x)-abs(x0)) < 0.5)):
         x1 -= 0.0001
-    elif v0 > 0 and k < -70 and q == 0:
+    elif v0 > 0 and ((k < -70 and q == 0) or (abs(abs(x)-abs(x0)) < 0.5)):
         x1 += 0.0001
-    elif v0 < 0 and k > -70 and q != 0:
+    elif v0 < 0:
         x1 -= 0.1
     else:
         x1 += 0.1
@@ -255,9 +260,9 @@ def graf_parabola():
             x1 -= 0.0001
         elif v0 > 0 and k < -70 and q == 0:
             x1 += 0.0001
-        elif v0 < 0 and k > -70 and q != 0 :
+        elif v0 < 0:
             x1 -= 0.1
-        else :
+        else:
             x1 += 0.1
     turtle.up()
 
@@ -323,9 +328,9 @@ R = d / 2
 a = 400
 w = 0.003
 p = 7
-x0 = -6
-y0 = 310
-k = -90
+x0 = -4
+y0 = 300
+k = 0
 l0 = math.radians(k)
 x00 = 0
 x = 0
