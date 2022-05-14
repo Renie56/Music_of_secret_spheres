@@ -16,32 +16,22 @@ def main():
         if u < 0:
             u += math.pi
         l0 = 2*b - math.radians(180) - u
-
-        #print("tg_b:", tg_b, "tg_u:", tg_u)
-        #print("tg_b:", b, "tg_u:", u)
-        #print("tg_b:", math.degrees(b), "tg_u:", math.degrees(u))
-    #print('Швидкість:', v0)
-    #print('кут:', math.degrees(l0))
     parabola()
-    #print('parabola[X] =', x)
 def parabola():
     global v0, l0, x, Left, Right, q, counter
     x = None
     if math.degrees(l0)>0:
         Left = (v0**2)*math.sin(2*l0)/(g*2)+x0
         Right = r
-        #print('Le:', Left, 'Ri:', Right)
         y=0
         counter = 0
         while Left<=Right and (x==None or x<r):
             x = (Left+Right)/2
             y1=y
             y = (((((r**2)-(x0**2))**0.5+(x-x0)*(math.tan(l0))-(g*((x-x0)**2))/(2*(v0**2)*((math.cos(l0)**2)))))-(((r**2)-(x**2))**0.5))
-            #print(y)
             number = Decimal(y)
             if y == y1:
                 counter += 1
-                # print(counter)
             if counter > 4 and y < 0:
                 Right = x - 1e-10
             elif counter > 4 and y > 0:
@@ -79,18 +69,18 @@ def grafics():
     turtle.goto(r, 0)
     turtle.down()
     turtle.left(90)
-    turtle.circle(r, r*1.2)
+    turtle.circle(r, (r*1.2))
     turtle.up()
     turtle.right(180)
     turtle.goto(-(a/2), 0)
     turtle.down()
-    turtle.goto(a/2, 0)
+    turtle.goto((a/2), 0)
     turtle.up()
-    turtle.goto(x0, y0)
+    turtle.goto(0, 500)
     turtle.down()
-    turtle.goto(x0, r)
+    turtle.goto(0, 0)
     turtle.up()
-    turtle.shape('circle')
+    #turtle.shape('circle')
 def graf_parabola():
     global l0, v0, y
     x1 = x0
@@ -119,22 +109,13 @@ mx = 0
 mn = 0
 Left = x0
 Right = r
-turtle.up()
+#turtle.up()
+#grafics()
 while y0<=1000:
     mx = borders(0)
-    turtle.goto(x00*10, y0//10)
-    print("x лівої границі :", x00*100, "y лівої границі :", y0//10)
-    turtle.down()
-    y0+=10
-turtle.up()
-y0=300
-while y0<=1000:
     mn = borders(1)
-    turtle.goto(x00*10, y0//10)
-    print("x правої границі :", x00 * 100, "y правої границі :", y0 // 10)
-    turtle.down()
+    print('Висота:', y0, 'Від:', mn, 'До:', mx)
     y0+=10
-#grafics()
-turtle.up()
+'''turtle.up()
 turtle.forward(100)
-turtle.mainloop()
+turtle.mainloop()'''
