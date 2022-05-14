@@ -1,6 +1,7 @@
+import decimal
 import math
 import turtle
-from decimal import Decimal, ROUND_HALF_DOWN
+from decimal import Decimal, ROUND_HALF_DOWN, ROUND_HALF_UP
 
 
 def main():
@@ -23,6 +24,11 @@ def main():
                 b += math.pi
             print("b:", math.degrees(b))
             tg_u = (math.tan(l0)) + (g * (x - x0) / ((v0 ** 2) * (math.cos(l0) ** 2)))
+            print('tg_u:', tg_u)
+            print('(math.tan(l0)):', (math.tan(l0)))
+            print('ll', math.degrees(l0))
+            print("2:", (g * (x - x0) / ((v0 ** 2) * (math.cos(l0) ** 2))))
+            print('x:', x, 'x0:', x0, 'v0:', v0, 'math.cos(l0):', math.cos(l0))
             u = math.atan(tg_u)
             if u < 0:
                 u += math.pi
@@ -137,14 +143,15 @@ def parabola1():
 def parabola():
     global v0, l0, x, Left, Right, q, counter
     x = None
-    if math.degrees(l0) > 0:
+    if v0 > 0:
+        Left = (v0 ** 2) * math.sin(2 * l0) / (g * 2) + x0
+        Right = (r + R)
+    else:
+        Left = -(r + R)
+        Right = (v0 ** 2) * math.sin(2 * l0) / (g * 2) + x0
+
+    if (abs(Left) * 2 < R+r and v0 > 0) or abs(Right)* 2 < R+r and v0 < 0:
         print("v0:", v0)
-        if v0 > 0:
-            Left = (v0 ** 2) * math.sin(2 * l0) / (g * 2) + x0
-            Right = (r + R)
-        else:
-            Left = -(r + R)
-            Right = (v0 ** 2) * math.sin(2 * l0) / (g * 2) + x0
         y = 0
         counter = 0
         print('Le:', Left, 'Ri:', Right)
@@ -182,14 +189,22 @@ def parabola():
                     Left = x + 1e-30
         if x != None:
             print('priv_v0:', v0, 'x0:', x0)
-            if v0 > 0:
-                v0 += ((2 * g * ((r + R) ** 2 - (x0) ** 2) ** 0.5) - (((r + R) ** 2 - (x) ** 2) ** 0.5)) ** 0.5
-            else:
-                v0 -= ((2 * g * ((r + R) ** 2 - (x0) ** 2) ** 0.5) - (((r + R) ** 2 - (x) ** 2) ** 0.5)) ** 0.5
-            print('first:', (2 * g * ((r + R) ** 2 - (x0) ** 2) ** 0.5), 'second:', (((r + R) ** 2 - (x) ** 2) ** 0.5))
+            print("x:", x, "x0:", x0)
+            if v0 > 0 and x0 > x :
+                v0 += (abs(2 * g * (((r + R) ** 2 - (x0) ** 2) ** 0.5 - ((r + R) ** 2 - (x) ** 2) ** 0.5))) ** 0.5
+            elif v0 < 0 and x0 > x:
+                v0 -= (2 * g * (((r + R) ** 2 - (x0) ** 2) ** 0.5 - ((r + R) ** 2 - (x) ** 2) ** 0.5)) ** 0.5
+            elif v0 > 0 and x0 < x :
+                v0 -= (abs(2 * g * (((r + R) ** 2 - (x0) ** 2) ** 0.5 - ((r + R) ** 2 - (x) ** 2) ** 0.5))) ** 0.5
+            elif v0 < 0 and x0 < x:
+                v0 += (2 * g * (((r + R) ** 2 - (x0) ** 2) ** 0.5 - ((r + R) ** 2 - (x) ** 2) ** 0.5)) ** 0.5
+            print('x', x, 'x0', x0)
+            print('f:', ((r + R) ** 2 - (x0) ** 2) ** 0.5, "s:",  ((r + R) ** 2 - (x) ** 2) ** 0.5)
+            print('first:', ((r + R) ** 2 - (x0) ** 2) ** 0.5 - ((r + R) ** 2 - (x) ** 2) ** 0.5, 'second:', 2 * g)
             print('n_v0:', v0)
             v0 *= 0.82 ** q
             print("у ітерацію %d швидкість " %(q), v0)
+
 
 def borders(a):
     global x0, y0, x, q, Left, Right, x00, x1
@@ -256,10 +271,10 @@ def graf_parabola():
             y = (((r + R) ** 2) - (x0 ** 2)) ** 0.5 + (x1 - x0) * (math.tan(l0)) - (g * ((x1 - x0) ** 2)) / (2 * (v0 * math.cos(l0)) ** 2)
         print("y:", y, x, x1)
         turtle.goto(x1, y)
-        if v0 < 0 and k < -70 and q == 0:
-            x1 -= 0.0001
-        elif v0 > 0 and k < -70 and q == 0:
-            x1 += 0.0001
+        if v0 < 0 and ((k < -70 and q == 0) or (abs(abs(x) - abs(x0)) < 0.5)):
+            x1 -= 0.001
+        elif v0 > 0 and ((k < -70 and q == 0) or (abs(abs(x) - abs(x0)) < 0.5)):
+            x1 += 0.001
         elif v0 < 0:
             x1 -= 0.1
         else:
@@ -292,15 +307,24 @@ def answer1():
     #hoh()
     grafics()
     coordinats()
-    while x != None and x < (r + R):
+    nemb = Decimal(x)
+    while x != None and nemb.quantize(Decimal("1.00"), ROUND_HALF_UP) < (r + R):
         main()
+        nemb = Decimal(x)
         x1 = x0
         x0 = x
-        print("x1:", x1, "x0:", x0, 'q:', q)
+        print("x1:", x1, "x0:", x0, 'q:', q, "x", x, nemb.quantize(Decimal("1.00"), ROUND_HALF_UP), (r+R))
         print("xxxxxxxxxxxxxxxxxxxxxxxxxxyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
         if q > 7:
+            print("забагато відскоків")
+            break
+        print(nemb.quantize(Decimal("1.00"), ROUND_HALF_UP), (r+R))
+        ab = nemb.quantize(Decimal("1.00"), ROUND_HALF_UP)
+        if ab >= (r+R):
+            print('ccccccccccccccc')
             break
     turtle.mainloop()
+
 
 def border():
     turtle.up()
@@ -328,7 +352,7 @@ R = d / 2
 a = 400
 w = 0.003
 p = 7
-x0 = -4
+x0 = 15
 y0 = 300
 k = 0
 l0 = math.radians(k)
@@ -342,9 +366,9 @@ mx = 0
 mn = 0
 Left = 0
 '''turtle.up()
-turtle.goto(-35, 0)
+turtle.goto(156.51939972894036, 0)
 turtle.down()
-turtle.goto(-35, 110)
+turtle.goto(156.51939972894036, 200)
 turtle.up()'''
 print("x0:", x0, "y0:", y0, "l0(до горизонту):", math.degrees(l0))
 Right = (r + R)
